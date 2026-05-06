@@ -1,0 +1,16 @@
+[Unit]
+Description=Inventory Manager API
+After=network.target
+
+[Service]
+Type=simple
+User=inventory
+Group=inventory
+WorkingDirectory=/opt/inventory-manager
+EnvironmentFile=/opt/inventory-manager/.env
+ExecStart=/opt/inventory-manager/venv/bin/uvicorn src.main:app --host 127.0.0.1 --port 8000
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

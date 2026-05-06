@@ -1,0 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Avenir Next', 'Segoe UI', Tahoma, sans-serif;
+  color: #1f3126;
+  background: #e4ecf2;
+}

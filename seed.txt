@@ -1,0 +1,59 @@
+Inventory Manager
+
+this app will be a basic inventory management system. 
+
+mandatory stack: sqlalchemy - pydantic - fastapi - reactTs - antd
+
+make the following md files:
+ - dev_notes: development rules that the deveopment agent shall reference frequently
+ - feature_requirements: ongoing file that collects and lists all the user's 
+   requirements with deep specificity in how they work and interact, no code, only 
+   english description.
+ - readme: the usual use
+ - deployment: a description for how to properly deploy this server on a linux server
+ - development: a description for how to run this in dev mode on a mac, linux or windows machine
+
+make the following directories: 
+ - data: gitignored instance data
+ - src: source code for the project goes here
+ - frontend: root directory for the react frontend
+ - server: templates for the necessary files to deploy like systemd, 
+   nginx, etc
+ - scripts: shell script to run via cli (including dev mode, unix and powershell), including 
+   linux server deployment scripts 
+
+make the following root directory files:
+ - example.config.yaml: example configuration yaml
+ - .gitignore: includes /data, /.env, /venv
+
+dev notes: 
+ - practice proper separation of concerns
+ - follow pep8 
+ - no more than 250 lines per python or ts file, no more than 500 lines per tsx component file
+ - each component/service of the frontend and backend must have its own directory
+ - every table should have every crud operation available in a db api, even if not used
+ - app should be configurable to enable/disable every crud operation on the MCP server, meaning
+   by default the MCP server should be able to do every crud operation, and it can all be taken 
+   away. 
+ - the primary key of all tables, besides join tables, shall be an incrementing integer
+ - the tables and columns you create are not limited to what is stipulated in the "we will track..." section
+ - any time there is ambiguity on a feature in terms of methodology or user edge cases, converse with the 
+   developer to clarify.
+
+we will track inventory on this server in the following way: 
+ - inventory has a (name, description, link, data, qty, price) field, a link to inventory_category and a 
+   link to locations
+ - locations have a (name, description, coordinate) field, and a link to self to make this
+   heirarchical
+ - inventory_categories, should be self-referential like locations
+ - transactions, where you
+
+the frontend will have the following features: 
+ - inventory page from which you can increment/decrement/create_new/drill_down_into, can also filter
+   and search. inventory is ordered by recently updated by default, but the table should be sortable
+ - locations view where you can click through it like the columns view in fineder on a mac, each 
+   location card should list how many individual items of inventory are in it (total, including indirectly)
+ - categories view where you can CRUD categories
+
+
+   

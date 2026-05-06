@@ -1,0 +1,19 @@
+app:
+  name: inventory-manager
+  environment: development
+  host: 127.0.0.1
+  port: 8000
+
+database:
+  url: sqlite:///./data/inventory.db
+
+mcp:
+  crud:
+    create: true
+    read: true
+    update: true
+    delete: true
+
+frontend:
+  dev_server_url: http://localhost:5173
+  public_base_url: /
