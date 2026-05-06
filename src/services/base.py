@@ -18,8 +18,24 @@ class BaseService(Generic[ModelT]):
     def get(self, db: Session, record_id: int) -> ModelT | None:
         return self.repository.get(db, record_id)
 
-    def list(self, db: Session) -> list[ModelT]:
-        return self.repository.list(db)
+    def list(
+        self,
+        db: Session,
+        *,
+        q: str | None = None,
+        page: int = 1,
+        page_size: int = 25,
+        sort_by: str = "id",
+        sort_order: str = "asc",
+    ) -> list[ModelT]:
+        return self.repository.list(
+            db,
+            q=q,
+            page=page,
+            page_size=page_size,
+            sort_by=sort_by,
+            sort_order=sort_order,
+        )
 
     def update(self, db: Session, record_id: int, payload: dict[str, Any]) -> ModelT | None:
         return self.repository.update(db, record_id, payload)

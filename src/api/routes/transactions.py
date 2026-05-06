@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from src.db.session import get_db
@@ -24,9 +24,23 @@ def _build_router(enforce_mcp: bool) -> APIRouter:
         return TransactionRead.model_validate(created)
 
     @router.get("", response_model=list[TransactionRead])
-    def list_transactions(db: Session = Depends(get_db)) -> list[TransactionRead]:
+    def list_transactions(
+        q: str | None = Query(default=None),
+        page: int = Query(default=1, ge=1),
+        page_size: int = Query(default=25, ge=1, le=200),
+        sort_by: str = Query(default="id"),
+        sort_order: str = Query(default="asc", pattern="^(asc|desc)$"),
+        db: Session = Depends(get_db),
+    ) -> list[TransactionRead]:
         enforce_mcp_permission("read", enforce_mcp)
-        records = transaction_service.list(db)
+        records = transaction_service.list(
+            db,
+            q=q,
+            page=page,
+            page_size=page_size,
+            sort_by=sort_by,
+            sort_order=sort_order,
+        )
         return [TransactionRead.model_validate(item) for item in records]
 
     @router.get("/{record_id}", response_model=TransactionRead)
