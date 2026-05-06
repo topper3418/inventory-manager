@@ -20,7 +20,10 @@ def _build_router(enforce_mcp: bool) -> APIRouter:
         db: Session = Depends(get_db),
     ) -> TransactionRead:
         enforce_mcp_permission("create", enforce_mcp)
-        created = transaction_service.create(db, payload.model_dump())
+        try:
+            created = transaction_service.create(db, payload.model_dump())
+        except ValueError as exc:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
         return TransactionRead.model_validate(created)
 
     @router.get("", response_model=list[TransactionRead])

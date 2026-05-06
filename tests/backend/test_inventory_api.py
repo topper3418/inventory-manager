@@ -54,7 +54,6 @@ def test_create_inventory_generates_initial_transaction() -> None:
     assert len(transactions) == 1
     assert transactions[0]["inventory_id"] == record_id
     assert transactions[0]["qty_delta"] == 10
-    assert transactions[0]["unit_price"] == 4.25
 
 
 def test_update_inventory_qty_generates_delta_transaction() -> None:

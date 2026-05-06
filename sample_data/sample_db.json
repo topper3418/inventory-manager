@@ -1,0 +1,216 @@
+{
+  "meta": {
+    "name": "inventory-manager-sample-db",
+    "version": 1,
+    "generated_at": "2026-05-05T00:00:00Z",
+    "notes": "Sample relational data for local development and demos. IDs are stable for repeatable tests."
+  },
+  "locations": [
+    {
+      "id": 1,
+      "name": "HQ",
+      "description": "Primary warehouse and office",
+      "coordinate": "47.6205,-122.3493",
+      "parent_id": null
+    },
+    {
+      "id": 2,
+      "name": "HQ / Aisle A",
+      "description": "Fast-moving hardware",
+      "coordinate": "47.6206,-122.3494",
+      "parent_id": 1
+    },
+    {
+      "id": 3,
+      "name": "HQ / Aisle B",
+      "description": "Cables and accessories",
+      "coordinate": "47.6207,-122.3494",
+      "parent_id": 1
+    },
+    {
+      "id": 4,
+      "name": "Retail Floor",
+      "description": "Storefront display and pickup",
+      "coordinate": "47.6210,-122.3490",
+      "parent_id": 1
+    },
+    {
+      "id": 5,
+      "name": "Overflow Storage",
+      "description": "Long-tail and reserve stock",
+      "coordinate": "47.6198,-122.3501",
+      "parent_id": 1
+    }
+  ],
+  "inventory_categories": [
+    {
+      "id": 1,
+      "name": "Hardware",
+      "description": "Physical computer components",
+      "parent_id": null
+    },
+    {
+      "id": 2,
+      "name": "Storage",
+      "description": "SSDs and HDDs",
+      "parent_id": 1
+    },
+    {
+      "id": 3,
+      "name": "Peripherals",
+      "description": "Keyboards, mice, and accessories",
+      "parent_id": null
+    },
+    {
+      "id": 4,
+      "name": "Cables",
+      "description": "Video, USB, and power cables",
+      "parent_id": 3
+    },
+    {
+      "id": 5,
+      "name": "Networking",
+      "description": "Routers, switches, and related gear",
+      "parent_id": null
+    }
+  ],
+  "inventory": [
+    {
+      "id": 1,
+      "name": "1TB NVMe SSD",
+      "description": "PCIe Gen4 M.2 SSD",
+      "link": "https://example.com/items/1tb-nvme",
+      "data": "{\"brand\":\"SampleTech\",\"warranty_years\":5}",
+      "qty": 42,
+      "price": 89.99,
+      "category_id": 2,
+      "location_id": 2,
+      "created_at": "2026-04-20T10:15:00Z",
+      "updated_at": "2026-05-04T14:22:00Z"
+    },
+    {
+      "id": 2,
+      "name": "USB-C Cable 1m",
+      "description": "USB-C 3.2 Gen2 braided cable",
+      "link": "https://example.com/items/usb-c-1m",
+      "data": "{\"color\":\"black\",\"amp\":5}",
+      "qty": 120,
+      "price": 12.5,
+      "category_id": 4,
+      "location_id": 3,
+      "created_at": "2026-04-18T09:00:00Z",
+      "updated_at": "2026-05-05T08:05:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Wi-Fi 6 Router",
+      "description": "Dual-band AX3000 router",
+      "link": "https://example.com/items/wifi6-router",
+      "data": "{\"ports\":4,\"mesh_ready\":true}",
+      "qty": 18,
+      "price": 149.0,
+      "category_id": 5,
+      "location_id": 4,
+      "created_at": "2026-04-12T12:30:00Z",
+      "updated_at": "2026-05-03T17:11:00Z"
+    },
+    {
+      "id": 4,
+      "name": "Mechanical Keyboard",
+      "description": "TKL keyboard with hot-swappable switches",
+      "link": "https://example.com/items/mech-kb",
+      "data": "{\"layout\":\"TKL\",\"switch\":\"tactile\"}",
+      "qty": 27,
+      "price": 109.95,
+      "category_id": 3,
+      "location_id": 4,
+      "created_at": "2026-04-14T15:40:00Z",
+      "updated_at": "2026-05-04T11:00:00Z"
+    },
+    {
+      "id": 5,
+      "name": "8TB HDD",
+      "description": "3.5-inch nearline hard drive",
+      "link": "https://example.com/items/8tb-hdd",
+      "data": "{\"rpm\":7200,\"cache_mb\":256}",
+      "qty": 9,
+      "price": 159.99,
+      "category_id": 2,
+      "location_id": 5,
+      "created_at": "2026-04-10T07:25:00Z",
+      "updated_at": "2026-05-01T13:45:00Z"
+    }
+  ],
+  "transactions": [
+    {
+      "id": 1,
+      "inventory_id": 1,
+      "qty_delta": 50,
+      "note": "Initial stock",
+      "created_at": "2026-04-20T10:15:00Z"
+    },
+    {
+      "id": 2,
+      "inventory_id": 1,
+      "qty_delta": -8,
+      "note": "Retail sales batch",
+      "created_at": "2026-05-04T14:22:00Z"
+    },
+    {
+      "id": 3,
+      "inventory_id": 2,
+      "qty_delta": 100,
+      "note": "Initial stock",
+      "created_at": "2026-04-18T09:00:00Z"
+    },
+    {
+      "id": 4,
+      "inventory_id": 2,
+      "qty_delta": 20,
+      "note": "Restock",
+      "created_at": "2026-05-05T08:05:00Z"
+    },
+    {
+      "id": 5,
+      "inventory_id": 3,
+      "qty_delta": 20,
+      "note": "Initial stock",
+      "created_at": "2026-04-12T12:30:00Z"
+    },
+    {
+      "id": 6,
+      "inventory_id": 3,
+      "qty_delta": -2,
+      "note": "Store pickup order",
+      "created_at": "2026-05-03T17:11:00Z"
+    },
+    {
+      "id": 7,
+      "inventory_id": 4,
+      "qty_delta": 30,
+      "note": "Initial stock",
+      "created_at": "2026-04-14T15:40:00Z"
+    },
+    {
+      "id": 8,
+      "inventory_id": 4,
+      "qty_delta": -3,
+      "note": "RMA replacement",
+      "created_at": "2026-05-04T11:00:00Z"
+    },
+    {
+      "id": 9,
+      "inventory_id": 5,
+      "qty_delta": 10,
+      "note": "Initial stock",
+      "created_at": "2026-04-10T07:25:00Z"
+    },
+    {
+      "id": 10,
+      "inventory_id": 5,
+      "qty_delta": -1,
+      "note": "Transfer to lab",
+      "created_at": "2026-05-01T13:45:00Z"
+    }
+  ]
+}
