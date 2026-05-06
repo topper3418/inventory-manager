@@ -38,4 +38,6 @@ class Inventory(Base):
 
     category: Mapped[InventoryCategory | None] = relationship(back_populates="inventory_items")
     location: Mapped[Location | None] = relationship(back_populates="inventory_items")
-    transactions: Mapped[list[Transaction]] = relationship(back_populates="inventory")
+    transactions: Mapped[list[Transaction]] = relationship(
+        back_populates="inventory", cascade="all, delete-orphan"
+    )

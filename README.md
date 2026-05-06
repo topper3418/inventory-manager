@@ -1,52 +1,63 @@
 # Inventory Manager
 
-Basic inventory management system using FastAPI + SQLAlchemy + Pydantic for backend and React TypeScript + Ant Design for frontend.
+Full-stack inventory management system using FastAPI + SQLAlchemy + Pydantic for the backend and React TypeScript + Ant Design for the frontend.
 
 ## Stack
-- Backend: FastAPI, SQLAlchemy, Pydantic
-- Frontend: React (TypeScript), Ant Design
+- Backend: FastAPI 0.115+, SQLAlchemy 2.0, Pydantic 2.x, Python 3.11+, SQLite
+- Frontend: React 19 (TypeScript), Vite, Ant Design v6
+- Testing: pytest (backend), Vitest + Testing Library (frontend)
 
 ## Project Layout
-- data: gitignored runtime data
-- src: source code
-- frontend: React frontend root
-- server: deployment templates (systemd, nginx)
-- scripts: CLI scripts for development and deployment
+- `data/` — gitignored runtime SQLite database
+- `src/` — backend source (models, schemas, repositories, services, API/MCP routes)
+- `frontend/` — React frontend root
+- `server/` — deployment templates (systemd, nginx)
+- `scripts/` — CLI scripts for development, seeding, and deployment
+- `tests/` — pytest backend test suite
+- `sample_data/` — seed data JSON
 
 ## Backend Scope
-- SQLAlchemy models:
-	- inventory
-	- locations (self-referential)
-	- inventory_categories (self-referential)
-	- transactions
-- Layered backend organization:
-	- schemas
-	- repositories
-	- services
-	- API and MCP routers
-- MCP CRUD operation controls are read from `example.config.yaml`.
+- SQLAlchemy models: inventory, locations (self-referential), inventory_categories (self-referential), transactions
+- Layered architecture: models → repositories → services → API/MCP routers
+- Transactions auto-created on inventory create (if qty > 0) and on qty update (delta)
+- Cascade delete: removing an inventory item deletes its transactions
+- MCP router at `/mcp/*` with per-operation CRUD permission controls via `example.config.yaml`
+- Full CRUD + filter/sort/pagination on all endpoints (`/api/*` and `/mcp/*`)
 
 ## Frontend Scope
-- Ant Design based interface with three views:
-	- Inventory: create, search, sort, increment/decrement, delete.
-	- Locations: hierarchy navigation and recursive total counts.
-	- Categories: CRUD management.
+- Ant Design interface with three views:
+  - **Inventory**: search, sort, view/transact/delete modals, category column, default sort by recently updated
+  - **Locations**: tree view (default) + table toggle, recursive inventory totals, collapsible children, view modal with item drilldown (view + transact buttons per item), edit inside view modal
+  - **Categories**: tree view (default) + table toggle, self-referential hierarchy, full CRUD
 
 ## Run in Development
-- Unix/macOS:
-	- `bash scripts/dev.sh`
-- Windows PowerShell:
-	- `powershell -ExecutionPolicy Bypass -File scripts/dev.ps1`
+- Unix/macOS: `bash scripts/dev.sh`
+- Windows PowerShell: `powershell -ExecutionPolicy Bypass -File scripts/dev.ps1`
 
-This starts:
+Starts:
 - Backend: `http://127.0.0.1:8000`
 - Frontend: `http://127.0.0.1:5173`
 
+## Run Tests
+```bash
+# Backend (59 tests)
+source venv/bin/activate
+python -m pytest tests/backend/ -v
+
+# Frontend
+cd frontend && npm test
+```
+
 ## Key Docs
-- dev_notes.md
-- feature_requirements.md
-- development.md
-- deployment.md
+- [development.md](development.md) — setup and local dev guide
+- [deployment.md](deployment.md) — Linux server deployment
+- [dev_notes.md](dev_notes.md) — architecture rules
+- [feature_requirements.md](feature_requirements.md) — product requirements
 
 ## Current Status
-Full scaffold implemented for backend and frontend with baseline CRUD behavior.
+- ✅ Full backend CRUD for all four resources
+- ✅ MCP router with configurable per-operation permission enforcement
+- ✅ Transaction automation on inventory create/update
+- ✅ Server-side filter, sort, pagination on all list endpoints
+- ✅ 59 backend tests passing (categories, inventory, locations, transactions, MCP permissions)
+- ✅ React frontend with all three views fully implemented

@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 
 from src.db.session import SessionLocal
@@ -29,6 +30,24 @@ def setup_function() -> None:
 
 def teardown_function() -> None:
     _reset_db()
+
+
+def _create_item(name: str = "Widget", qty: int = 5, price: float = 1.0) -> dict:
+    response = client.post(
+        "/api/inventory",
+        json={
+            "name": name,
+            "qty": qty,
+            "price": price,
+            "description": "",
+            "link": "",
+            "data": "",
+            "category_id": None,
+            "location_id": None,
+        },
+    )
+    assert response.status_code == 200
+    return response.json()
 
 
 def test_create_inventory_generates_initial_transaction() -> None:
@@ -118,3 +137,46 @@ def test_inventory_list_supports_filter_and_pagination() -> None:
     rows = response.json()
     assert len(rows) == 1
     assert rows[0]["name"] == "Alpha Box"
+
+
+def test_get_inventory_by_id() -> None:
+    item = _create_item(name="Lookup Item")
+    response = client.get(f"/api/inventory/{item['id']}")
+    assert response.status_code == 200
+    assert response.json()["name"] == "Lookup Item"
+
+
+def test_get_inventory_not_found() -> None:
+    response = client.get("/api/inventory/999999")
+    assert response.status_code == 404
+
+
+def test_update_inventory_fields() -> None:
+    item = _create_item(name="Old Name", price=1.0)
+    response = client.patch(
+        f"/api/inventory/{item['id']}",
+        json={"name": "New Name", "price": 9.99},
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["name"] == "New Name"
+    assert data["price"] == pytest.approx(9.99)
+
+
+def test_update_inventory_not_found() -> None:
+    response = client.patch("/api/inventory/999999", json={"name": "X"})
+    assert response.status_code == 404
+
+
+def test_delete_inventory() -> None:
+    item = _create_item(name="Delete Me")
+    delete_response = client.delete(f"/api/inventory/{item['id']}")
+    assert delete_response.status_code == 204
+
+    get_response = client.get(f"/api/inventory/{item['id']}")
+    assert get_response.status_code == 404
+
+
+def test_delete_inventory_not_found() -> None:
+    response = client.delete("/api/inventory/999999")
+    assert response.status_code == 404
