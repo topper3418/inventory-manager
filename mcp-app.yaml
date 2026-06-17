@@ -1,0 +1,19 @@
+name: inventory-manager
+description: Inventory management system with multi-location tracking, categories, and transaction history
+version: "1.0.0"
+icon: "📦"
+
+backend:
+  type: python
+  command: "uvicorn src.main:app --host 0.0.0.0 --port 8080"
+  build: "pip install -r requirements.txt"
+  port: 8080
+  env:
+    INV_CONFIG_PATH: "production.config.yaml"
+
+frontend:
+  type: react
+  dir: frontend
+  build: "npm install && npm run build"
+  output_dir: frontend/dist
+  spa_mode: true
