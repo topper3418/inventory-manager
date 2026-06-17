@@ -10,10 +10,3 @@ backend:
   port: 8080
   env:
     INV_CONFIG_PATH: "production.config.yaml"
-
-frontend:
-  type: react
-  dir: frontend
-  build: "npm install --legacy-peer-deps --no-audit && npm run build"
-  output_dir: frontend/dist
-  spa_mode: true
