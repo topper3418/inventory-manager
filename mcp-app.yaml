@@ -8,5 +8,23 @@ backend:
   command: "uvicorn src.main:app --host 0.0.0.0 --port 8080"
   build: "pip install -r requirements.txt"
   port: 8080
+  health_path: /health
+  required_files:
+    - production.config.yaml
+  writable_paths:
+    - data/
   env:
-    INV_CONFIG_PATH: "production.config.yaml"
+    INV_CONFIG_PATH: production.config.yaml
+
+frontend:
+  type: react
+  dir: frontend
+  build: "npm ci && npm run build"
+  output_dir: frontend/dist
+  spa_mode: true
+
+resources:
+  databases:
+    - name: main
+      type: sqlite
+      db_name: data/inventory.db
