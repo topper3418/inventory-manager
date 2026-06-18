@@ -48,6 +48,23 @@ python -m pytest tests/backend/ -v
 cd frontend && npm test
 ```
 
+## New World Deployment
+
+Registered on the New World platform at **http://devpi.local/apps/inventory-manager/**.
+
+- Manifest: `mcp-app.yaml` (icon, health_path, required_files, frontend, sqlite resources)
+- Production config: `production.config.yaml`
+- API: `/apps/inventory-manager/api/*`
+- Health: `/health` (probed on the unix socket at deploy time)
+
+Redeploy after pushing to GitHub:
+
+```bash
+# Via MCP deploy_repo on devpi.local/mcp
+github_url: https://github.com/topper3418/inventory-manager.git
+branch: main
+```
+
 ## Key Docs
 - [development.md](development.md) — setup and local dev guide
 - [deployment.md](deployment.md) — Linux server deployment
